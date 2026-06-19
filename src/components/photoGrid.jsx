@@ -16,7 +16,7 @@ const PhotoGrid = ({ photos, isLoading, error, addToGallery, removeFromGallery, 
 
     return (
         <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[30px] my-[30px] mx-[20px] md:mx-[60px] md:my-[50px]">
                 {photos.map((photo, index) => (
 
                     <div key={photo.id} className="bg-white rounded-xl shadow-md overflow-hidden transition-transform hover:scale-[1.02]">

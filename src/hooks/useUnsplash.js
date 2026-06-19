@@ -8,7 +8,7 @@ export const useUnsplash = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const fetchRandomPhotos = async (count = 20) => {
+    const fetchRandomPhotos = async (count = 24) => {
         setIsLoading(true)
         setError(null)
 

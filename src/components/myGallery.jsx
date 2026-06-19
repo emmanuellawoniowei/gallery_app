@@ -20,7 +20,7 @@ export default function MyGallery({ gallery, removeFromGallery }) {
 
     return (
         <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[30px] my-[30px] mx-[20px] md:mx-[60px] md:my-[50px]">
                 {gallery.map((photo, index) => (
                     <div
                         key={photo.id}

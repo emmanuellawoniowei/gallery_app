@@ -3,9 +3,14 @@ import { useUnsplash } from "./hooks/useUnsplash"
 import { useLocalStorage } from "./hooks/useLocalStorage";
 import PhotoGrid from "./components/photoGrid.jsx"
 import MyGallery from "./components/myGallery.jsx";
+import { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 
 function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const [gallery, setGallery] = useLocalStorage("gallery", [])
   const { fetchRandomPhotos, photos, isLoading, error } = useUnsplash()
 
@@ -27,15 +32,64 @@ function App() {
 
       <div className="min-h-screen bg-gray-50">
 
-        <nav className="bg-white shadow-md py-4 px-6 flex justify-between items-center sticky top-0 z-10">
-          <Link to={"/"} className="text-2xl font-bold text-gray-800">Unsplash Gallery</Link>
+        <nav className="bg-white shadow-md p-[20px] md:px-[60px] flex justify-between items-center sticky top-0 z-10">
 
-          <div className="space-x-6">
-            <Link to={"/gallery"} className="hover:text-blue-600">Gallery ({gallery.length}) </Link>
+          <Link to={"/"} className="text-[20px] md:text-[24px] xl:text-[28px] font-bold text-gray-800">Unsplash Gallery</Link>
 
-            <button onClick={() => fetchRandomPhotos()} className="px-4 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer">Randomize</button>
+          <div>
+            <button className="md:hidden xl:hidden text-[28px]" onClick={() => setIsOpen(true)}
+            >
+             <GiHamburgerMenu />
+            </button>
+
+            {isOpen && (
+              <div className="fixed inset-0 bg-white z-50 md:hidden flex flex-col overflow-hidden">
+
+                <div className="flex justify-between items-center p-[20px] border-b">
+                  <Link
+                    to="/"
+                    onClick={() => setIsOpen(false)}
+                    className="text-[20px] font-bold"
+                  >
+                    Unsplash Gallery
+                  </Link>
+
+                  <button onClick={() => setIsOpen(false)} className="text-[28px]">
+                    <IoClose />
+                  </button>
+                </div>
+
+                <div className="flex flex-col items-start justify-start gap-[24px] pt-[20px] px-[20px]">
+
+                  <Link
+                    to="/gallery"
+                    onClick={() => setIsOpen(false)}
+                    className="text-[24px] font-medium hover:text-blue-600"
+                  >
+                    Gallery ({gallery.length})
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      fetchRandomPhotos();
+                      setIsOpen(false);
+                    }}
+                    className="px-[24px] py-[12px] bg-blue-600 text-white rounded-[10px] text-[24px] hover:bg-blue-700 transition"
+                  >
+                    Randomize
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="hidden md:flex flex-row justify-center items-center gap-[15px]">
+            <Link to={"/gallery"} className="hover:text-blue-600 md:text-[18px]">Gallery ({gallery.length}) </Link>
+
+            <button onClick={() => fetchRandomPhotos()} className="md:px-[20px] md:py-[7px] bg-blue-600 text-white md:text-[18px] rounded-[8px] hover:bg-blue-700 transition cursor-pointer">Randomize</button>
           </div>
         </nav>
+
 
         <main>
           <Routes>

@@ -1,9 +1,29 @@
 // src/components/CarouselModal.jsx
 import { useEffect, useState, useCallback } from 'react';
+import { FaDownload } from "react-icons/fa";
 
 export default function CarouselModal({ photos, initialIndex, onClose }) {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const currentPhoto = photos[currentIndex];
+
+    const handleDownload = async () => {
+        const imageUrl = currentPhoto.urls.full;
+
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${currentPhoto.id}.jpg`;
+
+        document.body.appendChild(a);
+        a.click();
+
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+    };
 
     // Navigation functions
     const goPrev = useCallback(() => {
@@ -50,6 +70,14 @@ export default function CarouselModal({ photos, initialIndex, onClose }) {
                         alt={currentPhoto.alt_description || 'Unsplash photo'}
                         className="w-full max-h-[80vh] object-contain bg-black"
                     />
+
+                    <button
+                        type="button"
+                        onClick={handleDownload}
+                        className="absolute top-3 right-15 bg-black/80 text-white p-2 rounded-full transition hover:scale-110">
+                        <FaDownload />
+                    </button>
+
                     {/* Close button */}
                     <button
                         onClick={onClose}
